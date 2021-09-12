@@ -54,16 +54,16 @@ services:
       # Database user (replace with yours)
       POSTGRES_USER: zabbixdbuser
       POSTGRES_PASSWORD_FILE: /run/secrets/zabbix-postgres-password
+    networks:
+      - zabbix-network
+    secrets:
+      - zabbix-postgres-password
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -h 127.0.0.1"]
       interval: 10s
       timeout: 5s
       retries: 3
       start_period: 60s
-    networks:
-      - zabbix-network
-    secrets:
-      - zabbix-postgres-password
     deploy:
       mode: replicated
       replicas: 1
